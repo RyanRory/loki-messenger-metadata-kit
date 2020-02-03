@@ -98,25 +98,45 @@ struct SMKProtos_SenderCertificate {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
+//  /// @required
+//  var certificate: Data {
+//    get {return _certificate ?? SwiftProtobuf.Internal.emptyData}
+//    set {_certificate = newValue}
+//  }
+//  /// Returns true if `certificate` has been explicitly set.
+//  var hasCertificate: Bool {return self._certificate != nil}
+//  /// Clears the value of `certificate`. Subsequent reads from it will return its default value.
+//  mutating func clearCertificate() {self._certificate = nil}
+//
+//  /// @required
+//  var signature: Data {
+//    get {return _signature ?? SwiftProtobuf.Internal.emptyData}
+//    set {_signature = newValue}
+//  }
+//  /// Returns true if `signature` has been explicitly set.
+//  var hasSignature: Bool {return self._signature != nil}
+//  /// Clears the value of `signature`. Subsequent reads from it will return its default value.
+//  mutating func clearSignature() {self._signature = nil}
   /// @required
-  var certificate: Data {
-    get {return _certificate ?? SwiftProtobuf.Internal.emptyData}
-    set {_certificate = newValue}
+  var sender: String {
+    get {return _sender ?? String()}
+    set {_sender = newValue}
   }
-  /// Returns true if `certificate` has been explicitly set.
-  var hasCertificate: Bool {return self._certificate != nil}
-  /// Clears the value of `certificate`. Subsequent reads from it will return its default value.
-  mutating func clearCertificate() {self._certificate = nil}
-
-  /// @required
-  var signature: Data {
-    get {return _signature ?? SwiftProtobuf.Internal.emptyData}
-    set {_signature = newValue}
+    
+  /// Returns true if `sender` has been explicitly set.
+  var hasSender: Bool {return self._sender != nil}
+  /// Clears the value of `sender`. Subsequent reads from it will return its default value.
+  mutating func clearSender() {self._sender = nil}
+    
+  var senderDevice: UInt32 {
+    get {return _senderDevice ?? 0}
+    set {_senderDevice = newValue}
   }
-  /// Returns true if `signature` has been explicitly set.
-  var hasSignature: Bool {return self._signature != nil}
-  /// Clears the value of `signature`. Subsequent reads from it will return its default value.
-  mutating func clearSignature() {self._signature = nil}
+    
+  /// Returns true if `sender` has been explicitly set.
+  var hasSenderDevice: Bool {return self._senderDevice != nil}
+  /// Clears the value of `sender`. Subsequent reads from it will return its default value.
+  mutating func clearSenderDevice() {self._senderDevice = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -125,23 +145,15 @@ struct SMKProtos_SenderCertificate {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
-    var senderE164: String {
-      get {return _storage._senderE164 ?? String()}
-      set {_uniqueStorage()._senderE164 = newValue}
+    /// @required
+    var sender: String {
+      get {return _storage._sender ?? String()}
+      set {_uniqueStorage()._sender = newValue}
     }
-    /// Returns true if `senderE164` has been explicitly set.
-    var hasSenderE164: Bool {return _storage._senderE164 != nil}
-    /// Clears the value of `senderE164`. Subsequent reads from it will return its default value.
-    mutating func clearSenderE164() {_uniqueStorage()._senderE164 = nil}
-
-    var senderUuid: String {
-      get {return _storage._senderUuid ?? String()}
-      set {_uniqueStorage()._senderUuid = newValue}
-    }
-    /// Returns true if `senderUuid` has been explicitly set.
-    var hasSenderUuid: Bool {return _storage._senderUuid != nil}
-    /// Clears the value of `senderUuid`. Subsequent reads from it will return its default value.
-    mutating func clearSenderUuid() {_uniqueStorage()._senderUuid = nil}
+    /// Returns true if `sender` has been explicitly set.
+    var hasSender: Bool {return _storage._sender != nil}
+    /// Clears the value of `sender`. Subsequent reads from it will return its default value.
+    mutating func clearSender() {_storage._sender = nil}
 
     /// @required
     var senderDevice: UInt32 {
@@ -151,7 +163,7 @@ struct SMKProtos_SenderCertificate {
     /// Returns true if `senderDevice` has been explicitly set.
     var hasSenderDevice: Bool {return _storage._senderDevice != nil}
     /// Clears the value of `senderDevice`. Subsequent reads from it will return its default value.
-    mutating func clearSenderDevice() {_uniqueStorage()._senderDevice = nil}
+    mutating func clearSenderDevice() {_storage._senderDevice = nil}
 
     /// @required
     var expires: UInt64 {
@@ -161,7 +173,7 @@ struct SMKProtos_SenderCertificate {
     /// Returns true if `expires` has been explicitly set.
     var hasExpires: Bool {return _storage._expires != nil}
     /// Clears the value of `expires`. Subsequent reads from it will return its default value.
-    mutating func clearExpires() {_uniqueStorage()._expires = nil}
+    mutating func clearExpires() {_storage._expires = nil}
 
     /// @required
     var identityKey: Data {
@@ -171,7 +183,7 @@ struct SMKProtos_SenderCertificate {
     /// Returns true if `identityKey` has been explicitly set.
     var hasIdentityKey: Bool {return _storage._identityKey != nil}
     /// Clears the value of `identityKey`. Subsequent reads from it will return its default value.
-    mutating func clearIdentityKey() {_uniqueStorage()._identityKey = nil}
+    mutating func clearIdentityKey() {_storage._identityKey = nil}
 
     /// @required
     var signer: SMKProtos_ServerCertificate {
@@ -181,7 +193,7 @@ struct SMKProtos_SenderCertificate {
     /// Returns true if `signer` has been explicitly set.
     var hasSigner: Bool {return _storage._signer != nil}
     /// Clears the value of `signer`. Subsequent reads from it will return its default value.
-    mutating func clearSigner() {_uniqueStorage()._signer = nil}
+    mutating func clearSigner() {_storage._signer = nil}
 
     var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -191,9 +203,12 @@ struct SMKProtos_SenderCertificate {
   }
 
   init() {}
+    
+  fileprivate var _sender: String? = nil
+  fileprivate var _senderDevice: UInt32? = nil
 
-  fileprivate var _certificate: Data? = nil
-  fileprivate var _signature: Data? = nil
+//  fileprivate var _certificate: Data? = nil
+//  fileprivate var _signature: Data? = nil
 }
 
 struct SMKProtos_UnidentifiedSenderMessage {
@@ -238,6 +253,7 @@ struct SMKProtos_UnidentifiedSenderMessage {
     // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
     // methods supported on all messages.
 
+    /// @required
     var type: SMKProtos_UnidentifiedSenderMessage.Message.TypeEnum {
       get {return _storage._type ?? .prekeyMessage}
       set {_uniqueStorage()._type = newValue}
@@ -245,7 +261,7 @@ struct SMKProtos_UnidentifiedSenderMessage {
     /// Returns true if `type` has been explicitly set.
     var hasType: Bool {return _storage._type != nil}
     /// Clears the value of `type`. Subsequent reads from it will return its default value.
-    mutating func clearType() {_uniqueStorage()._type = nil}
+    mutating func clearType() {_storage._type = nil}
 
     /// @required
     var senderCertificate: SMKProtos_SenderCertificate {
@@ -255,7 +271,7 @@ struct SMKProtos_UnidentifiedSenderMessage {
     /// Returns true if `senderCertificate` has been explicitly set.
     var hasSenderCertificate: Bool {return _storage._senderCertificate != nil}
     /// Clears the value of `senderCertificate`. Subsequent reads from it will return its default value.
-    mutating func clearSenderCertificate() {_uniqueStorage()._senderCertificate = nil}
+    mutating func clearSenderCertificate() {_storage._senderCertificate = nil}
 
     /// @required
     var content: Data {
@@ -265,7 +281,7 @@ struct SMKProtos_UnidentifiedSenderMessage {
     /// Returns true if `content` has been explicitly set.
     var hasContent: Bool {return _storage._content != nil}
     /// Clears the value of `content`. Subsequent reads from it will return its default value.
-    mutating func clearContent() {_uniqueStorage()._content = nil}
+    mutating func clearContent() {_storage._content = nil}
 
     var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -273,6 +289,7 @@ struct SMKProtos_UnidentifiedSenderMessage {
       typealias RawValue = Int
       case prekeyMessage // = 1
       case message // = 2
+      case lokiFriendRequest // = 3
 
       init() {
         self = .prekeyMessage
@@ -282,6 +299,7 @@ struct SMKProtos_UnidentifiedSenderMessage {
         switch rawValue {
         case 1: self = .prekeyMessage
         case 2: self = .message
+        case 3: self = .lokiFriendRequest
         default: return nil
         }
       }
@@ -290,6 +308,7 @@ struct SMKProtos_UnidentifiedSenderMessage {
         switch self {
         case .prekeyMessage: return 1
         case .message: return 2
+        case .lokiFriendRequest: return 3
         }
       }
 
@@ -338,10 +357,10 @@ extension SMKProtos_ServerCertificate: SwiftProtobuf.Message, SwiftProtobuf._Mes
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: SMKProtos_ServerCertificate, rhs: SMKProtos_ServerCertificate) -> Bool {
-    if lhs._certificate != rhs._certificate {return false}
-    if lhs._signature != rhs._signature {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
+  func _protobuf_generated_isEqualTo(other: SMKProtos_ServerCertificate) -> Bool {
+    if self._certificate != other._certificate {return false}
+    if self._signature != other._signature {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -373,10 +392,10 @@ extension SMKProtos_ServerCertificate.Certificate: SwiftProtobuf.Message, SwiftP
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: SMKProtos_ServerCertificate.Certificate, rhs: SMKProtos_ServerCertificate.Certificate) -> Bool {
-    if lhs._id != rhs._id {return false}
-    if lhs._key != rhs._key {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
+  func _protobuf_generated_isEqualTo(other: SMKProtos_ServerCertificate.Certificate) -> Bool {
+    if self._id != other._id {return false}
+    if self._key != other._key {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -384,34 +403,36 @@ extension SMKProtos_ServerCertificate.Certificate: SwiftProtobuf.Message, SwiftP
 extension SMKProtos_SenderCertificate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".SenderCertificate"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "certificate"),
-    2: .same(proto: "signature"),
+//    1: .same(proto: "certificate"),
+//    2: .same(proto: "signature"),
+    1: .same(proto: "sender"),
+    2: .same(proto: "senderDevice"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
     while let fieldNumber = try decoder.nextFieldNumber() {
       switch fieldNumber {
-      case 1: try decoder.decodeSingularBytesField(value: &self._certificate)
-      case 2: try decoder.decodeSingularBytesField(value: &self._signature)
+      case 1: try decoder.decodeSingularStringField(value: &self._sender)
+      case 2: try decoder.decodeSingularUInt32Field(value: &self._senderDevice)
       default: break
       }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if let v = self._certificate {
-      try visitor.visitSingularBytesField(value: v, fieldNumber: 1)
+    if let v = self._sender {
+      try visitor.visitSingularStringField(value: v, fieldNumber: 1)
     }
-    if let v = self._signature {
-      try visitor.visitSingularBytesField(value: v, fieldNumber: 2)
+    if let v = self._senderDevice {
+      try visitor.visitSingularUInt32Field(value: v, fieldNumber: 2)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: SMKProtos_SenderCertificate, rhs: SMKProtos_SenderCertificate) -> Bool {
-    if lhs._certificate != rhs._certificate {return false}
-    if lhs._signature != rhs._signature {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
+  func _protobuf_generated_isEqualTo(other: SMKProtos_SenderCertificate) -> Bool {
+    if self._sender != other._sender {return false}
+    if self._senderDevice != other._senderDevice {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -419,8 +440,7 @@ extension SMKProtos_SenderCertificate: SwiftProtobuf.Message, SwiftProtobuf._Mes
 extension SMKProtos_SenderCertificate.Certificate: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = SMKProtos_SenderCertificate.protoMessageName + ".Certificate"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .same(proto: "senderE164"),
-    6: .same(proto: "senderUuid"),
+    1: .same(proto: "sender"),
     2: .same(proto: "senderDevice"),
     3: .same(proto: "expires"),
     4: .same(proto: "identityKey"),
@@ -428,8 +448,7 @@ extension SMKProtos_SenderCertificate.Certificate: SwiftProtobuf.Message, SwiftP
   ]
 
   fileprivate class _StorageClass {
-    var _senderE164: String? = nil
-    var _senderUuid: String? = nil
+    var _sender: String? = nil
     var _senderDevice: UInt32? = nil
     var _expires: UInt64? = nil
     var _identityKey: Data? = nil
@@ -440,8 +459,7 @@ extension SMKProtos_SenderCertificate.Certificate: SwiftProtobuf.Message, SwiftP
     private init() {}
 
     init(copying source: _StorageClass) {
-      _senderE164 = source._senderE164
-      _senderUuid = source._senderUuid
+      _sender = source._sender
       _senderDevice = source._senderDevice
       _expires = source._expires
       _identityKey = source._identityKey
@@ -461,12 +479,11 @@ extension SMKProtos_SenderCertificate.Certificate: SwiftProtobuf.Message, SwiftP
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
       while let fieldNumber = try decoder.nextFieldNumber() {
         switch fieldNumber {
-        case 1: try decoder.decodeSingularStringField(value: &_storage._senderE164)
+        case 1: try decoder.decodeSingularStringField(value: &_storage._sender)
         case 2: try decoder.decodeSingularUInt32Field(value: &_storage._senderDevice)
         case 3: try decoder.decodeSingularFixed64Field(value: &_storage._expires)
         case 4: try decoder.decodeSingularBytesField(value: &_storage._identityKey)
         case 5: try decoder.decodeSingularMessageField(value: &_storage._signer)
-        case 6: try decoder.decodeSingularStringField(value: &_storage._senderUuid)
         default: break
         }
       }
@@ -475,7 +492,7 @@ extension SMKProtos_SenderCertificate.Certificate: SwiftProtobuf.Message, SwiftP
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
     try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
-      if let v = _storage._senderE164 {
+      if let v = _storage._sender {
         try visitor.visitSingularStringField(value: v, fieldNumber: 1)
       }
       if let v = _storage._senderDevice {
@@ -490,29 +507,25 @@ extension SMKProtos_SenderCertificate.Certificate: SwiftProtobuf.Message, SwiftP
       if let v = _storage._signer {
         try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
       }
-      if let v = _storage._senderUuid {
-        try visitor.visitSingularStringField(value: v, fieldNumber: 6)
-      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: SMKProtos_SenderCertificate.Certificate, rhs: SMKProtos_SenderCertificate.Certificate) -> Bool {
-    if lhs._storage !== rhs._storage {
-      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+  func _protobuf_generated_isEqualTo(other: SMKProtos_SenderCertificate.Certificate) -> Bool {
+    if _storage !== other._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
-        let rhs_storage = _args.1
-        if _storage._senderE164 != rhs_storage._senderE164 {return false}
-        if _storage._senderUuid != rhs_storage._senderUuid {return false}
-        if _storage._senderDevice != rhs_storage._senderDevice {return false}
-        if _storage._expires != rhs_storage._expires {return false}
-        if _storage._identityKey != rhs_storage._identityKey {return false}
-        if _storage._signer != rhs_storage._signer {return false}
+        let other_storage = _args.1
+        if _storage._sender != other_storage._sender {return false}
+        if _storage._senderDevice != other_storage._senderDevice {return false}
+        if _storage._expires != other_storage._expires {return false}
+        if _storage._identityKey != other_storage._identityKey {return false}
+        if _storage._signer != other_storage._signer {return false}
         return true
       }
       if !storagesAreEqual {return false}
     }
-    if lhs.unknownFields != rhs.unknownFields {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -549,11 +562,11 @@ extension SMKProtos_UnidentifiedSenderMessage: SwiftProtobuf.Message, SwiftProto
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: SMKProtos_UnidentifiedSenderMessage, rhs: SMKProtos_UnidentifiedSenderMessage) -> Bool {
-    if lhs._ephemeralPublic != rhs._ephemeralPublic {return false}
-    if lhs._encryptedStatic != rhs._encryptedStatic {return false}
-    if lhs._encryptedMessage != rhs._encryptedMessage {return false}
-    if lhs.unknownFields != rhs.unknownFields {return false}
+  func _protobuf_generated_isEqualTo(other: SMKProtos_UnidentifiedSenderMessage) -> Bool {
+    if self._ephemeralPublic != other._ephemeralPublic {return false}
+    if self._encryptedStatic != other._encryptedStatic {return false}
+    if self._encryptedMessage != other._encryptedMessage {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }
@@ -618,19 +631,19 @@ extension SMKProtos_UnidentifiedSenderMessage.Message: SwiftProtobuf.Message, Sw
     try unknownFields.traverse(visitor: &visitor)
   }
 
-  static func ==(lhs: SMKProtos_UnidentifiedSenderMessage.Message, rhs: SMKProtos_UnidentifiedSenderMessage.Message) -> Bool {
-    if lhs._storage !== rhs._storage {
-      let storagesAreEqual: Bool = withExtendedLifetime((lhs._storage, rhs._storage)) { (_args: (_StorageClass, _StorageClass)) in
+  func _protobuf_generated_isEqualTo(other: SMKProtos_UnidentifiedSenderMessage.Message) -> Bool {
+    if _storage !== other._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_args: (_StorageClass, _StorageClass)) in
         let _storage = _args.0
-        let rhs_storage = _args.1
-        if _storage._type != rhs_storage._type {return false}
-        if _storage._senderCertificate != rhs_storage._senderCertificate {return false}
-        if _storage._content != rhs_storage._content {return false}
+        let other_storage = _args.1
+        if _storage._type != other_storage._type {return false}
+        if _storage._senderCertificate != other_storage._senderCertificate {return false}
+        if _storage._content != other_storage._content {return false}
         return true
       }
       if !storagesAreEqual {return false}
     }
-    if lhs.unknownFields != rhs.unknownFields {return false}
+    if unknownFields != other.unknownFields {return false}
     return true
   }
 }

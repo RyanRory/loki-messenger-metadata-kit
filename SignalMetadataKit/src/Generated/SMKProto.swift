@@ -1,9 +1,8 @@
 //
-//  Copyright (c) 2019 Open Whisper Systems. All rights reserved.
+//  Copyright (c) 2018 Open Whisper Systems. All rights reserved.
 //
 
 import Foundation
-import SignalCoreKit
 
 // WARNING: This code is generated. Only edit within the markers.
 
@@ -19,12 +18,6 @@ public enum SMKProtoError: Error {
 
     @objc public class func builder(id: UInt32, key: Data) -> SMKProtoServerCertificateCertificateBuilder {
         return SMKProtoServerCertificateCertificateBuilder(id: id, key: key)
-    }
-
-    // asBuilder() constructs a builder that reflects the proto's contents.
-    @objc public func asBuilder() -> SMKProtoServerCertificateCertificateBuilder {
-        let builder = SMKProtoServerCertificateCertificateBuilder(id: id, key: key)
-        return builder
     }
 
     @objc public class SMKProtoServerCertificateCertificateBuilder: NSObject {
@@ -101,10 +94,6 @@ public enum SMKProtoError: Error {
                                                           key: key)
         return result
     }
-
-    @objc public override var debugDescription: String {
-        return "\(proto)"
-    }
 }
 
 #if DEBUG
@@ -131,12 +120,6 @@ extension SMKProtoServerCertificateCertificate.SMKProtoServerCertificateCertific
 
     @objc public class func builder(certificate: Data, signature: Data) -> SMKProtoServerCertificateBuilder {
         return SMKProtoServerCertificateBuilder(certificate: certificate, signature: signature)
-    }
-
-    // asBuilder() constructs a builder that reflects the proto's contents.
-    @objc public func asBuilder() -> SMKProtoServerCertificateBuilder {
-        let builder = SMKProtoServerCertificateBuilder(certificate: certificate, signature: signature)
-        return builder
     }
 
     @objc public class SMKProtoServerCertificateBuilder: NSObject {
@@ -213,10 +196,6 @@ extension SMKProtoServerCertificateCertificate.SMKProtoServerCertificateCertific
                                                signature: signature)
         return result
     }
-
-    @objc public override var debugDescription: String {
-        return "\(proto)"
-    }
 }
 
 #if DEBUG
@@ -241,20 +220,8 @@ extension SMKProtoServerCertificate.SMKProtoServerCertificateBuilder {
 
     // MARK: - SMKProtoSenderCertificateCertificateBuilder
 
-    @objc public class func builder(senderDevice: UInt32, expires: UInt64, identityKey: Data, signer: SMKProtoServerCertificate) -> SMKProtoSenderCertificateCertificateBuilder {
-        return SMKProtoSenderCertificateCertificateBuilder(senderDevice: senderDevice, expires: expires, identityKey: identityKey, signer: signer)
-    }
-
-    // asBuilder() constructs a builder that reflects the proto's contents.
-    @objc public func asBuilder() -> SMKProtoSenderCertificateCertificateBuilder {
-        let builder = SMKProtoSenderCertificateCertificateBuilder(senderDevice: senderDevice, expires: expires, identityKey: identityKey, signer: signer)
-        if let _value = senderE164 {
-            builder.setSenderE164(_value)
-        }
-        if let _value = senderUuid {
-            builder.setSenderUuid(_value)
-        }
-        return builder
+    @objc public class func builder(sender: String, senderDevice: UInt32, expires: UInt64, identityKey: Data, signer: SMKProtoServerCertificate) -> SMKProtoSenderCertificateCertificateBuilder {
+        return SMKProtoSenderCertificateCertificateBuilder(sender: sender, senderDevice: senderDevice, expires: expires, identityKey: identityKey, signer: signer)
     }
 
     @objc public class SMKProtoSenderCertificateCertificateBuilder: NSObject {
@@ -263,21 +230,18 @@ extension SMKProtoServerCertificate.SMKProtoServerCertificateBuilder {
 
         @objc fileprivate override init() {}
 
-        @objc fileprivate init(senderDevice: UInt32, expires: UInt64, identityKey: Data, signer: SMKProtoServerCertificate) {
+        @objc fileprivate init(sender: String, senderDevice: UInt32, expires: UInt64, identityKey: Data, signer: SMKProtoServerCertificate) {
             super.init()
 
+            setSender(sender)
             setSenderDevice(senderDevice)
             setExpires(expires)
             setIdentityKey(identityKey)
             setSigner(signer)
         }
 
-        @objc public func setSenderE164(_ valueParam: String) {
-            proto.senderE164 = valueParam
-        }
-
-        @objc public func setSenderUuid(_ valueParam: String) {
-            proto.senderUuid = valueParam
+        @objc public func setSender(_ valueParam: String) {
+            proto.sender = valueParam
         }
 
         @objc public func setSenderDevice(_ valueParam: UInt32) {
@@ -307,6 +271,8 @@ extension SMKProtoServerCertificate.SMKProtoServerCertificateBuilder {
 
     fileprivate let proto: SMKProtos_SenderCertificate.Certificate
 
+    @objc public let sender: String
+
     @objc public let senderDevice: UInt32
 
     @objc public let expires: UInt64
@@ -315,32 +281,14 @@ extension SMKProtoServerCertificate.SMKProtoServerCertificateBuilder {
 
     @objc public let signer: SMKProtoServerCertificate
 
-    @objc public var senderE164: String? {
-        guard proto.hasSenderE164 else {
-            return nil
-        }
-        return proto.senderE164
-    }
-    @objc public var hasSenderE164: Bool {
-        return proto.hasSenderE164
-    }
-
-    @objc public var senderUuid: String? {
-        guard proto.hasSenderUuid else {
-            return nil
-        }
-        return proto.senderUuid
-    }
-    @objc public var hasSenderUuid: Bool {
-        return proto.hasSenderUuid
-    }
-
     private init(proto: SMKProtos_SenderCertificate.Certificate,
+                 sender: String,
                  senderDevice: UInt32,
                  expires: UInt64,
                  identityKey: Data,
                  signer: SMKProtoServerCertificate) {
         self.proto = proto
+        self.sender = sender
         self.senderDevice = senderDevice
         self.expires = expires
         self.identityKey = identityKey
@@ -358,6 +306,11 @@ extension SMKProtoServerCertificate.SMKProtoServerCertificateBuilder {
     }
 
     fileprivate class func parseProto(_ proto: SMKProtos_SenderCertificate.Certificate) throws -> SMKProtoSenderCertificateCertificate {
+        guard proto.hasSender else {
+            throw SMKProtoError.invalidProtobuf(description: "\(logTag) missing required field: sender")
+        }
+        let sender = proto.sender
+
         guard proto.hasSenderDevice else {
             throw SMKProtoError.invalidProtobuf(description: "\(logTag) missing required field: senderDevice")
         }
@@ -383,15 +336,12 @@ extension SMKProtoServerCertificate.SMKProtoServerCertificateBuilder {
         // MARK: - End Validation Logic for SMKProtoSenderCertificateCertificate -
 
         let result = SMKProtoSenderCertificateCertificate(proto: proto,
+                                                          sender: sender,
                                                           senderDevice: senderDevice,
                                                           expires: expires,
                                                           identityKey: identityKey,
                                                           signer: signer)
         return result
-    }
-
-    @objc public override var debugDescription: String {
-        return "\(proto)"
     }
 }
 
@@ -417,14 +367,8 @@ extension SMKProtoSenderCertificateCertificate.SMKProtoSenderCertificateCertific
 
     // MARK: - SMKProtoSenderCertificateBuilder
 
-    @objc public class func builder(certificate: Data, signature: Data) -> SMKProtoSenderCertificateBuilder {
-        return SMKProtoSenderCertificateBuilder(certificate: certificate, signature: signature)
-    }
-
-    // asBuilder() constructs a builder that reflects the proto's contents.
-    @objc public func asBuilder() -> SMKProtoSenderCertificateBuilder {
-        let builder = SMKProtoSenderCertificateBuilder(certificate: certificate, signature: signature)
-        return builder
+    @objc public class func builder(sender: String, senderDevice: UInt32) -> SMKProtoSenderCertificateBuilder {
+        return SMKProtoSenderCertificateBuilder(sender: sender, senderDevice: senderDevice)
     }
 
     @objc public class SMKProtoSenderCertificateBuilder: NSObject {
@@ -433,19 +377,19 @@ extension SMKProtoSenderCertificateCertificate.SMKProtoSenderCertificateCertific
 
         @objc fileprivate override init() {}
 
-        @objc fileprivate init(certificate: Data, signature: Data) {
+        @objc fileprivate init(sender: String, senderDevice: UInt32) {
             super.init()
 
-            setCertificate(certificate)
-            setSignature(signature)
+            setSender(sender)
+            setSenderDevice(senderDevice)
+        }
+        
+        @objc public func setSender(_ valueParam: String) {
+            proto.sender = valueParam
         }
 
-        @objc public func setCertificate(_ valueParam: Data) {
-            proto.certificate = valueParam
-        }
-
-        @objc public func setSignature(_ valueParam: Data) {
-            proto.signature = valueParam
+        @objc public func setSenderDevice(_ valueParam: UInt32) {
+            proto.senderDevice = valueParam
         }
 
         @objc public func build() throws -> SMKProtoSenderCertificate {
@@ -459,16 +403,16 @@ extension SMKProtoSenderCertificateCertificate.SMKProtoSenderCertificateCertific
 
     fileprivate let proto: SMKProtos_SenderCertificate
 
-    @objc public let certificate: Data
+    @objc public let sender: String
 
-    @objc public let signature: Data
+    @objc public let senderDevice: UInt32
 
     private init(proto: SMKProtos_SenderCertificate,
-                 certificate: Data,
-                 signature: Data) {
+                 sender: String,
+                 senderDevice: UInt32) {
         self.proto = proto
-        self.certificate = certificate
-        self.signature = signature
+        self.sender = sender
+        self.senderDevice = senderDevice
     }
 
     @objc
@@ -482,28 +426,24 @@ extension SMKProtoSenderCertificateCertificate.SMKProtoSenderCertificateCertific
     }
 
     fileprivate class func parseProto(_ proto: SMKProtos_SenderCertificate) throws -> SMKProtoSenderCertificate {
-        guard proto.hasCertificate else {
-            throw SMKProtoError.invalidProtobuf(description: "\(logTag) missing required field: certificate")
+        guard proto.hasSender else {
+            throw SMKProtoError.invalidProtobuf(description: "\(logTag) missing required field: sender")
         }
-        let certificate = proto.certificate
+        let sender = proto.sender
 
-        guard proto.hasSignature else {
-            throw SMKProtoError.invalidProtobuf(description: "\(logTag) missing required field: signature")
+        guard proto.hasSenderDevice else {
+            throw SMKProtoError.invalidProtobuf(description: "\(logTag) missing required field: sender device")
         }
-        let signature = proto.signature
+        let senderDevice = proto.senderDevice
 
         // MARK: - Begin Validation Logic for SMKProtoSenderCertificate -
 
         // MARK: - End Validation Logic for SMKProtoSenderCertificate -
 
         let result = SMKProtoSenderCertificate(proto: proto,
-                                               certificate: certificate,
-                                               signature: signature)
+                                               sender: sender,
+                                               senderDevice: senderDevice)
         return result
-    }
-
-    @objc public override var debugDescription: String {
-        return "\(proto)"
     }
 }
 
@@ -532,12 +472,14 @@ extension SMKProtoSenderCertificate.SMKProtoSenderCertificateBuilder {
     @objc public enum SMKProtoUnidentifiedSenderMessageMessageType: Int32 {
         case prekeyMessage = 1
         case message = 2
+        case lokiFriendRequest = 3
     }
 
     private class func SMKProtoUnidentifiedSenderMessageMessageTypeWrap(_ value: SMKProtos_UnidentifiedSenderMessage.Message.TypeEnum) -> SMKProtoUnidentifiedSenderMessageMessageType {
         switch value {
         case .prekeyMessage: return .prekeyMessage
         case .message: return .message
+        case .lokiFriendRequest: return .lokiFriendRequest
         }
     }
 
@@ -545,22 +487,14 @@ extension SMKProtoSenderCertificate.SMKProtoSenderCertificateBuilder {
         switch value {
         case .prekeyMessage: return .prekeyMessage
         case .message: return .message
+        case .lokiFriendRequest: return .lokiFriendRequest
         }
     }
 
     // MARK: - SMKProtoUnidentifiedSenderMessageMessageBuilder
 
-    @objc public class func builder(senderCertificate: SMKProtoSenderCertificate, content: Data) -> SMKProtoUnidentifiedSenderMessageMessageBuilder {
-        return SMKProtoUnidentifiedSenderMessageMessageBuilder(senderCertificate: senderCertificate, content: content)
-    }
-
-    // asBuilder() constructs a builder that reflects the proto's contents.
-    @objc public func asBuilder() -> SMKProtoUnidentifiedSenderMessageMessageBuilder {
-        let builder = SMKProtoUnidentifiedSenderMessageMessageBuilder(senderCertificate: senderCertificate, content: content)
-        if let _value = type {
-            builder.setType(_value)
-        }
-        return builder
+    @objc public class func builder(type: SMKProtoUnidentifiedSenderMessageMessageType, senderCertificate: SMKProtoSenderCertificate, content: Data) -> SMKProtoUnidentifiedSenderMessageMessageBuilder {
+        return SMKProtoUnidentifiedSenderMessageMessageBuilder(type: type, senderCertificate: senderCertificate, content: content)
     }
 
     @objc public class SMKProtoUnidentifiedSenderMessageMessageBuilder: NSObject {
@@ -569,9 +503,10 @@ extension SMKProtoSenderCertificate.SMKProtoSenderCertificateBuilder {
 
         @objc fileprivate override init() {}
 
-        @objc fileprivate init(senderCertificate: SMKProtoSenderCertificate, content: Data) {
+        @objc fileprivate init(type: SMKProtoUnidentifiedSenderMessageMessageType, senderCertificate: SMKProtoSenderCertificate, content: Data) {
             super.init()
 
+            setType(type)
             setSenderCertificate(senderCertificate)
             setContent(content)
         }
@@ -599,32 +534,18 @@ extension SMKProtoSenderCertificate.SMKProtoSenderCertificateBuilder {
 
     fileprivate let proto: SMKProtos_UnidentifiedSenderMessage.Message
 
+    @objc public let type: SMKProtoUnidentifiedSenderMessageMessageType
+
     @objc public let senderCertificate: SMKProtoSenderCertificate
 
     @objc public let content: Data
 
-    public var type: SMKProtoUnidentifiedSenderMessageMessageType? {
-        guard proto.hasType else {
-            return nil
-        }
-        return SMKProtoUnidentifiedSenderMessageMessage.SMKProtoUnidentifiedSenderMessageMessageTypeWrap(proto.type)
-    }
-    // This "unwrapped" accessor should only be used if the "has value" accessor has already been checked.
-    @objc public var unwrappedType: SMKProtoUnidentifiedSenderMessageMessageType {
-        if !hasType {
-            // TODO: We could make this a crashing assert.
-            owsFailDebug("Unsafe unwrap of missing optional: Message.type.")
-        }
-        return SMKProtoUnidentifiedSenderMessageMessage.SMKProtoUnidentifiedSenderMessageMessageTypeWrap(proto.type)
-    }
-    @objc public var hasType: Bool {
-        return proto.hasType
-    }
-
     private init(proto: SMKProtos_UnidentifiedSenderMessage.Message,
+                 type: SMKProtoUnidentifiedSenderMessageMessageType,
                  senderCertificate: SMKProtoSenderCertificate,
                  content: Data) {
         self.proto = proto
+        self.type = type
         self.senderCertificate = senderCertificate
         self.content = content
     }
@@ -640,6 +561,11 @@ extension SMKProtoSenderCertificate.SMKProtoSenderCertificateBuilder {
     }
 
     fileprivate class func parseProto(_ proto: SMKProtos_UnidentifiedSenderMessage.Message) throws -> SMKProtoUnidentifiedSenderMessageMessage {
+        guard proto.hasType else {
+            throw SMKProtoError.invalidProtobuf(description: "\(logTag) missing required field: type")
+        }
+        let type = SMKProtoUnidentifiedSenderMessageMessageTypeWrap(proto.type)
+
         guard proto.hasSenderCertificate else {
             throw SMKProtoError.invalidProtobuf(description: "\(logTag) missing required field: senderCertificate")
         }
@@ -655,13 +581,10 @@ extension SMKProtoSenderCertificate.SMKProtoSenderCertificateBuilder {
         // MARK: - End Validation Logic for SMKProtoUnidentifiedSenderMessageMessage -
 
         let result = SMKProtoUnidentifiedSenderMessageMessage(proto: proto,
+                                                              type: type,
                                                               senderCertificate: senderCertificate,
                                                               content: content)
         return result
-    }
-
-    @objc public override var debugDescription: String {
-        return "\(proto)"
     }
 }
 
@@ -689,12 +612,6 @@ extension SMKProtoUnidentifiedSenderMessageMessage.SMKProtoUnidentifiedSenderMes
 
     @objc public class func builder(ephemeralPublic: Data, encryptedStatic: Data, encryptedMessage: Data) -> SMKProtoUnidentifiedSenderMessageBuilder {
         return SMKProtoUnidentifiedSenderMessageBuilder(ephemeralPublic: ephemeralPublic, encryptedStatic: encryptedStatic, encryptedMessage: encryptedMessage)
-    }
-
-    // asBuilder() constructs a builder that reflects the proto's contents.
-    @objc public func asBuilder() -> SMKProtoUnidentifiedSenderMessageBuilder {
-        let builder = SMKProtoUnidentifiedSenderMessageBuilder(ephemeralPublic: ephemeralPublic, encryptedStatic: encryptedStatic, encryptedMessage: encryptedMessage)
-        return builder
     }
 
     @objc public class SMKProtoUnidentifiedSenderMessageBuilder: NSObject {
@@ -785,10 +702,6 @@ extension SMKProtoUnidentifiedSenderMessageMessage.SMKProtoUnidentifiedSenderMes
                                                        encryptedStatic: encryptedStatic,
                                                        encryptedMessage: encryptedMessage)
         return result
-    }
-
-    @objc public override var debugDescription: String {
-        return "\(proto)"
     }
 }
 
